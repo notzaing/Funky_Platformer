@@ -3,28 +3,20 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    //jump script, see bottom of code
-    public float jumpForce = 10f;
-    
-
-    public Transform groundCheck;
-    public float groundCheckRadius = 0.2f;
-    public LayerMask groundMask;
-
     private Rigidbody2D rb2d;
-    private bool isGrounded;
-
-
+    private bool dead = false;
+    public int health;
     //variable setup
     public float force;
     public InputAction MoveAction;
-    bool canJump = true;
+
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("Collision Detected");
-        if(collision.gameObject.CompareTag("Floor"))
+        if (collision.collider.CompareTag("Hurty"))
         {
-            canJump = true;
+            health -= 1;
+            Debug.Log("Player health is");
+            Debug.Log(health);
         }
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -40,6 +32,14 @@ public class PlayerController : MonoBehaviour
         Vector2 move = MoveAction.ReadValue<Vector2>();
         Vector2 position = (Vector2)transform.position + move * force;
         transform.position = position;
+        if(health < 0 )
+        {
+            dead = true;
+        }
+        if (dead) 
+        {
+            
+        }
     }
 }
 
