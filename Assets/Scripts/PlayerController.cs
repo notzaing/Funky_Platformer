@@ -4,12 +4,11 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
-    private Rigidbody2D rb2d;
-    private bool dead = false;
     public int health = 3;
     //variable setup
     public float force;
     public InputAction MoveAction;
+    public Animator animate;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -25,29 +24,59 @@ public class PlayerController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
         MoveAction.Enable();
-        rb2d = GetComponent<Rigidbody2D>();
+        animate.enabled = true;
     }
 
     // Update is called once per frame
     void Update()
     {
+        //animation
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            if (!spriteRenderer.flipX)
+            {
+                spriteRenderer.flipX = true;
+            }
+            animate.SetBool("Running", true);
+        }
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            if (spriteRenderer.flipX)
+            {
+                spriteRenderer.flipX = false;
+            }
+            animate.SetBool("Running", true);
+        }
+        if (Input.GetKeyUp(KeyCode.A))
+        {
+            animate.SetBool("Running", false);
+        }
+        if (Input.GetKeyUp(KeyCode.D))
+        {
+            animate.SetBool("Running", false);
+        }
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            animate.SetBool("Jumping", true);
+        }
+        if (Input.GetKeyUp(KeyCode.W))
+        {
+            animate.SetBool("Jumping", false);
+        }
+
+        //movement
         Vector2 move = MoveAction.ReadValue<Vector2>();
         Vector2 position = (Vector2)transform.position + move * force;
         transform.position = position;
-        if(health < 0 )
+
+        //death
+        if (health < 0)
         {
             SceneManager.LoadScene(1);
-        }
-        
+        } 
     }
+
+   
 }
-
-
-
-
-
-//code taking
-
-//jump : https://share.google/3BZGum87kF9X19je7

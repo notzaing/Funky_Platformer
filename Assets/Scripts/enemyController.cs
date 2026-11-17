@@ -4,12 +4,20 @@ using UnityEngine.UIElements;
 public class enemyController : MonoBehaviour
 {
     public Vector2 move;
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (!collision.collider.CompareTag("Floor"))
         {
             move = -move;
+            SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+            if (spriteRenderer.flipX == false)
+            {
+                spriteRenderer.flipX = true;
+            }
+            else
+            {
+                spriteRenderer.flipX = false;
+            }
         }
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
