@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class ResetController : MonoBehaviour
 {
-    public InputAction ResetKey;
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
